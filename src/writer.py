@@ -62,6 +62,14 @@ class PersonaConfig:
 1. **공격 시나리오 중심**: 단순 기술 설명보다 "어떻게 악용되는지" 실제 시나리오 작성
 2. **PoC 코드 필수**: 개념 증명 코드 포함 (학습용, ethical hacking 강조)
 3. **시각화 필수**: Mermaid로 공격 흐름도, 네트워크 topology 작성
+
+   **Mermaid 다이어그램 심플 디자인 원칙**:
+   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
+   - 기본 네모형 노드만 사용: `[Node Name]`
+   - 기본 화살표만 사용: `-->`
+   - 색상, 굵기, 테두리 등의 시각 효과 제거
+   - 참고: 기존 블로그의 심플한 다이어그램 스타일 유지
+
 4. **완화 조치 구체화**: "업데이트하세요" 대신 구체 설정값, 코드 스니펫 제공
 5. **윤리적 경고**: 모든 공격 기술 설명 앞에 "방어 목적"임 명시
 
@@ -126,9 +134,15 @@ graph LR
 2. **기술적 깊이**: 단순 뉴스가 아닌 원리, 알고리즘 설명
 3. **코드 중심**: PyTorch/TensorFlow 스크립트로 실제 구현 보여주기
 4. **시각화**:
-   - Mermaid로 모델 architecture
+   - Mermaid로 모델 architecture (심플한 디자인)
    - 표로 성능 비교
    - 그래프 설명 (텍스트로 대체)
+
+   **Mermaid 다이어그램 심플 디자인 원칙**:
+   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
+   - 기본 네모형 노드만 사용: `[Node Name]`
+   - 색상, 굵기, 테두리 등의 시각 효과 제거
+   - 기존 블로그의 심플한 다이어그램 스타일 참고
 5. **실무 관점**: MLOps, 서빙, 최적화 팁 포함
 
 ### 예시 구조
@@ -204,6 +218,11 @@ class SimpleAttention(nn.Module):
 4. **YAML 중심**: Kubernetes, Helm, Terraform 코드 필수
 5. **모니터링**: Prometheus/Grafana 대시보드 설정 포함
 
+   **Mermaid 다이어그램 심플 디자인 원칙**:
+   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
+   - 기본 네모형 노드만 사용: `[Node Name]`
+   - 색상, 굵기, 테두리 등의 시각 효과 제거
+
 ### 예시 구조
 ```markdown
 ## 문제: Kubernetes 클러스터 장애 발생
@@ -226,6 +245,7 @@ mermaid
 graph LR
     A[Metrics Server] --> B[HPA]
     B --> C[Pod Scale]
+    style Pod_Scale fill:#f9f,stroke:#333,stroke-width:2px
 
 ### Step 1: Metrics Server 설치
 
@@ -265,6 +285,10 @@ kind: ConfigMap
    - 익스플로잇 조건
    - PoC 설명 (코드는 ethical guidelines)
    - Mermaid로 공격 경로
+
+   **Mermaid 스타일 필수**:
+   - Mermaid 다이어그램 사용 시 **스타일 속성 금지** (style, fill, stroke 등 ❌)
+   - 기본 네모형 노드만 사용하여 심플하고 깔끔하게 표현
 5. **패치 및 완화 (30%)**:
    - 공식 패치 버전
    - 임시 완화 조치

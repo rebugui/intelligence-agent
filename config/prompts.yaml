@@ -260,11 +260,40 @@ writer_content:
 
     ### 본론 (75%)
     **필수 포함 요소:**
-    - ✅ Mermaid 다이어그램 (최소 1개)
+    - ✅ Mermaid 다이어그램 (최소 1개, **심플한 디자인**)
     - ✅ 코드 예시 (최소 1개, 실행 가능)
     - ✅ 표/비교 (최소 1개)
     - ✅ Step-by-step 가이드
     - ✅ 기술적 깊이 (원리, 메커니즘)
+
+    ### Mermaid 다이어그램 가이드라인
+    모든 Mermaid 다이어그램은 **심플하고 깔끔한 디자인**을 유지하세요:
+
+    1. **기본 원칙**: 스타일 속성을 사용하지 마세요
+       ```mermaid
+       graph TD
+           A[Node A] --> B[Node B]
+           B --> C[Node C]
+       ```
+
+    2. **노드 형태**: 기본 네모형 `[ ]` 만 사용
+       - ❌ 서브그래프 내부 스타일 금지
+       - ❌ fill, stroke, stroke-width 등의 style 속성 금지
+       - ❌ classDef, class 적용 금지
+
+    3. **참고 디자인**: 기존 블로그의 심플한 스타일을 참고
+       ```mermaid
+       graph LR
+           A[Git Push] --> B[CI Build]
+           B --> C[Unit Tests]
+           C --> D[Docker Build]
+       ```
+
+    4. **절대 금지 사항**:
+       - style A fill:#f9f,stroke:#333,stroke-width:2px ❌
+       - style CoreComponent fill:#bbf,stroke:#333,stroke-width:2px ❌
+       - classDef 기본노드 fill:#f9f,stroke:#333 ❌
+       - 그 어떤 색상/스타일 적용도 금지 ❌❌❌
 
     ### 결론 (15%)
     - 핵심 요약
