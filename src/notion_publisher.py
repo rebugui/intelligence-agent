@@ -398,13 +398,22 @@ class NotionPublisher:
             # Mermaid 키워드로 시작하면 Mermaid로 처리
             mermaid_keywords = ['graph', 'flowchart', 'sequenceDiagram', 'classDiagram',
                               'stateDiagram', 'stateDiagram-v2', 'entityRelationshipDiagram', 'userJourney',
-                              'gantt', 'pie', 'mindmap', 'timeline', 'gitgraph', 'erDiagram', 'journey']
+                              'gantt', 'pie', 'mindmap', 'timeline', 'gitgraph', 'erDiagram', 'journey',
+                              'pieChart', 'requirementDiagram', 'mindmap', 'git']
 
-            is_mermaid = (language == 'javascript' and
-                         any(code_content.strip().startswith(keyword) for keyword in mermaid_keywords))
+            # 언어 확인 (대소문자 구분 없이)
+            lang_lower = language.lower() if isinstance(language, str) else ''
+
+            # 코드 내용에서 선행 공백 제거하고 첫 라인 확인
+            stripped_content = code_content.strip()
+            first_line = stripped_content.split('\n')[0].strip() if stripped_content else ''
+
+            is_mermaid = (lang_lower == 'javascript' and
+                         any(first_line.startswith(keyword) or first_line.startswith(keyword + ' ')
+                             for keyword in mermaid_keywords))
 
             if is_mermaid:
-                logger.info(f"🔄 Converting javascript to mermaid (starts with: {code_content.strip()[:30]})")
+                logger.info(f"🔄 Converting javascript to mermaid (first_line: {first_line[:50]})")
                 return f"```mermaid\n{code_content}\n```"
 
             # Notion 언어 → 마크다운 언어 매핑
