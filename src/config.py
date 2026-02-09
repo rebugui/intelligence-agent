@@ -8,10 +8,18 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # 1. 경로 설정
-# 현재 파일 위치: modules/intelligence/config.py
+# 현재 파일 위치: modules/intelligence/config.py (symlink to submodules/intelligence-agent/src/)
 # 프로젝트 루트: OpenClaw/
 CURRENT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = CURRENT_DIR.parent.parent  # modules/intelligence/../../ (즉, OpenClaw/)
+
+# 환경 변수로 지정된 PROJECT_ROOT 사용 (우선)
+# 또는 절대 경로로 직접 설정
+PROJECT_ROOT = Path(os.getenv("OPENCLAW_ROOT", "/Users/nabang/Documents/OpenClaw"))
+
+# PROJECT_ROOT가 존재하는지 확인
+if not PROJECT_ROOT.exists():
+    # fallback: 상대 경로 계산
+    PROJECT_ROOT = CURRENT_DIR.parent.parent
 
 # 주요 디렉토리
 LOG_DIR = PROJECT_ROOT / "logs"
