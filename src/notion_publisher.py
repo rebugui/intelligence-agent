@@ -396,24 +396,53 @@ class NotionPublisher:
 
             # Javascript 코드 블록이지만 Mermaid 다이어그램인지 확인
             # Mermaid 키워드로 시작하면 Mermaid로 처리
-            mermaid_keywords = ['graph', 'flowchart', 'sequenceDiagram', 'classDiagram',
-                              'stateDiagram', 'stateDiagram-v2', 'entityRelationshipDiagram', 'userJourney',
-                              'gantt', 'pie', 'mindmap', 'timeline', 'gitgraph', 'erDiagram', 'journey',
-                              'pieChart', 'requirementDiagram', 'mindmap', 'git']
 
             # 언어 확인 (대소문자 구분 없이)
             lang_lower = language.lower() if isinstance(language, str) else ''
 
-            # 코드 내용에서 선행 공백 제거하고 첫 라인 확인
+            # 코드 내용에서 선행 공백 제거
             stripped_content = code_content.strip()
-            first_line = stripped_content.split('\n')[0].strip() if stripped_content else ''
 
-            is_mermaid = (lang_lower == 'javascript' and
-                         any(first_line.startswith(keyword) or first_line.startswith(keyword + ' ')
-                             for keyword in mermaid_keywords))
+            # Mermaid 키워드 목록 (확장)
+            mermaid_keywords = [
+                # 다이어그램 타입
+                'graph', 'flowchart', 'sequenceDiagram', 'classDiagram',
+                'stateDiagram', 'stateDiagram-v2', 'entityRelationshipDiagram', 'userJourney',
+                'gantt', 'pie', 'mindmap', 'timeline', 'gitgraph', 'erDiagram', 'journey',
+                'pieChart', 'requirementDiagram', 'git',
+                # 서브그래프 및 구조
+                'subgraph', 'end[', 'end;',
+                # 노드 연결 패턴 (-->, --->, -.-, ==>)
+            ]
+
+            # Mermaid 문법 패턴 확인 (전체 내용 스캔)
+            is_mermaid = False
+
+            if lang_lower == 'javascript':
+                # 첫 라인 확인
+                first_line = stripped_content.split('\n')[0].strip() if stripped_content else ''
+
+                # 1. 첫 라인이 Mermaid 키워드로 시작하는지 확인
+                if any(first_line.startswith(keyword) or first_line.startswith(keyword + ' ')
+                       for keyword in mermaid_keywords):
+                    is_mermaid = True
+
+                # 2. 전체 내용에서 Mermaid 패턴 확인 (서브그래프, 화살표 등)
+                if not is_mermaid:
+                    # 서브그래프 패턴: subgraph ...
+                    if 'subgraph' in stripped_content.lower():
+                        is_mermaid = True
+                    # 화살표 패턴: -->, --->, -.-, ==>
+                    elif re.search(r'\w+\s*--?>\s*\w+', stripped_content):
+                        is_mermaid = True
+                    # 노드 패턴: Node1[Label], Node2(Label), Node3{Label}
+                    elif re.search(r'\w+\[[^\]]+\]', stripped_content) or \
+                         re.search(r'\w+\([^)]+\)', stripped_content) or \
+                         re.search(r'\w+\{[^}]+\}', stripped_content):
+                        is_mermaid = True
 
             if is_mermaid:
-                logger.info(f"🔄 Converting javascript to mermaid (first_line: {first_line[:50]})")
+                logger.info(f"🔄 Converting javascript to mermaid (first_line: {stripped_content[:50]})")
                 return f"```mermaid\n{code_content}\n```"
 
             # Notion 언어 → 마크다운 언어 매핑
