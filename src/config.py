@@ -57,10 +57,10 @@ def get_env(key: str, default: str = None) -> str:
     """환경 변수 가져오기"""
     return os.getenv(key, default)
 
-# API Keys
-OPENAI_API_KEY = get_env("OPENAI_API_KEY")
-GLM_API_KEY = get_env("GLM_API_KEY")
-NOTION_API_KEY = get_env("NOTION_API_KEY")
+# API Keys (Intelligence Agent)
+OPENAI_API_KEY = get_env("INTELLIGENCE_OPENAI_API_KEY")
+GLM_API_KEY = get_env("INTELLIGENCE_LLM_API_KEY")
+NOTION_API_KEY = get_env("INTELLIGENCE_NOTION_TOKEN")
 
 # Blog Config
 BLOG_REPO_PATH = Path(get_env("BLOG_REPO_PATH", str(BLOG_REPO_PATH)))
@@ -70,10 +70,10 @@ BLOG_URL = get_env("BLOG_URL", "https://rebugui.github.io/hate-coding-turtle/")
 DB_PATH = DATA_DIR / "intelligence.db"
 
 # Notion Database ID (Intelligence Agent)
-NOTION_DATABASE_ID = get_env("NOTION_DATABASE_ID") or get_env("BLOG_DATABASE_ID")
+NOTION_DATABASE_ID = get_env("INTELLIGENCE_BLOG_DATABASE_ID")
 
-# Builder Agent Database ID
-PROJECT_DATABASE_ID = get_env("PROJECT_DATABASE_ID") or get_env("BLOG_DATABASE_ID")
+# Project Database ID (Intelligence Agent)
+PROJECT_DATABASE_ID = get_env("INTELLIGENCE_PROJECT_DATABASE_ID")
 
 # LLM Config
 GLM_BASE_URL = get_env("GLM_BASE_URL", "https://api.z.ai/api/coding/paas/v4/")
