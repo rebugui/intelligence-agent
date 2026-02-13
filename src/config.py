@@ -76,5 +76,5 @@ NOTION_DATABASE_ID = get_env("INTELLIGENCE_BLOG_DATABASE_ID")
 PROJECT_DATABASE_ID = get_env("INTELLIGENCE_PROJECT_DATABASE_ID")
 
 # LLM Config
-GLM_BASE_URL = get_env("GLM_BASE_URL", "https://api.z.ai/api/coding/paas/v4/")
-GLM_MODEL = get_env("GLM_MODEL", "glm-4.7")
+GLM_BASE_URL = get_env("INTELLIGENCE_LLM_BASE_URL", "https://api.z.ai/api/coding/paas/v4/")
+GLM_MODEL = get_env("INTELLIGENCE_LLM_MODEL", "glm-5")

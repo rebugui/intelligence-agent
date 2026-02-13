@@ -7,11 +7,16 @@ launchd를 통해 시스템 부팅 시 자동 시작되고, 프로세스가 종�
 """
 
 import sys
+import os
 import time
 import logging
+from pathlib import Path
 from datetime import datetime
 
-# 로깅 설정
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "submodules" / "intelligence-agent" / "src"))
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -27,7 +32,7 @@ try:
     from publisher_git import GitPublisher
 except ImportError as e:
     logger.error(f"Import error: {e}")
-    logger.error("PYTHONPATH를 확인해주세요.")
+    logger.error(f"PYTHONPATH: {sys.path}")
     sys.exit(1)
 
 

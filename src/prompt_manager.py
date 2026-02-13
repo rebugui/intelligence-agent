@@ -50,5 +50,21 @@ class PromptManager:
             return value.format(**kwargs)
         return value
 
+    @classmethod
+    def get_raw(cls, key: str) -> Any:
+        """포맷팅 없이 원본 값(dict 등) 반환"""
+        if not cls._prompts:
+            cls.load()
+
+        keys = key.split('.')
+        value = cls._prompts
+        
+        try:
+            for k in keys:
+                value = value[k]
+            return value
+        except (KeyError, TypeError):
+            return None
+
 # 초기화 시 로드
 PromptManager.load()

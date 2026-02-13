@@ -25,340 +25,28 @@ class Persona(Enum):
 
 class PersonaConfig:
     NOTION_CATEGORIES = ["보안", "AI", "DevOps", "CVE", "IT"]
-    PERSONAS = {
-        Persona.SECURITY: {
-            "name": "보안 전문가",
-            "expertise": "사이버 보안, 취약점 분석, 웹 해킹, 침투 테스트",
-            "tone": "전문적이지만 실용적이고 현장 감각 있게",
-            "category": "보안",
-            "default_tags": ["Security", "Cybersecurity", "보안", "취약점"],
-            "tag_keywords": ["XSS", "CSRF", "RCE", "Exploit", "Vulnerability", "Zero-day"],
-            "structure_guide": """
-## 보안 블로그 글 구조 가이드
-
-### 필수 섹션
-1. **헤딩**: 매력적인 제목
-2. **서론 (10%)**: 실제 보안 사고 사례나 시나리오로 흥미 유발
-3. **기술적 분석 (40%)**:
-   - 취약점 메커니즘 상세 설명
-   - 공격 벡터 다이어그램 (Mermaid)
-   - PoC 코드 또는 공격 시나리오
-4. **완화 조치 (30%)**:
-   - 즉시 적용 가능한 방어 가이드
-   - 코드 예시 (설정, 파라미터)
-5. **실무 팁 (15%)**: 모니터링, 탐지 방법
-6. **결론 (5%)**: 전문가의 인사이트
-
-### 필수 요소
-- ✅ Mermaid 공격 흐름도
-- ✅ PoC 코드 또는 설정 예시
-- ✅ CVE 번호가 있으면 CVSS 벡터 분석
-- ✅ 참고 링크 (공식 advisories, writeups)
-- ✅ 실무 적용 체크리스트
-""",
-            "specific_prompt": """
-### 보안 분야 작성 특이사항
-
-1. **공격 시나리오 중심**: 단순 기술 설명보다 "어떻게 악용되는지" 실제 시나리오 작성
-2. **PoC 코드 필수**: 개념 증명 코드 포함 (학습용, ethical hacking 강조)
-3. **시각화 필수**: Mermaid로 공격 흐름도, 네트워크 topology 작성
-
-   **Mermaid 다이어그램 심플 디자인 원칙**:
-   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
-   - 기본 네모형 노드만 사용: `[Node Name]`
-   - 기본 화살표만 사용: `-->`
-   - 색상, 굵기, 테두리 등의 시각 효과 제거
-   - 참고: 기존 블로그의 심플한 다이어그램 스타일 유지
-
-4. **완화 조치 구체화**: "업데이트하세요" 대신 구체 설정값, 코드 스니펫 제공
-5. **윤리적 경고**: 모든 공격 기술 설명 앞에 "방어 목적"임 명시
-
-### 예시 시나리오 구조
-```markdown
-## 공격 시나리오: OWASP Top 10 활용
-
-공격자는 다음과 같은 단계로 침투를 시도합니다...
-
-mermaid
-graph LR
-    A[Recon] --> B[Exploit]
-    B --> C[Privilege Escalation]
-    C --> D[Persistence]
-
-## 방어 가이드
-### 1. 즉시 조치
-- [ ] WAF 규칙 업데이트: `Rule ID: 1001`
-- [ ] 입력 검증 강화
-
-### 2. 장기 대책
-```
-"""
-        },
-        Persona.AI_ML: {
-            "name": "AI/ML 연구자",
-            "expertise": "딥러닝, NLP, LLM, MLOps, Transformer, 생성형 AI",
-            "tone": "학술적이지만 이해하기 쉽고, 최신 논문 기반",
-            "category": "AI",
-            "default_tags": ["AI", "LLM", "Deep Learning", "Machine Learning"],
-            "tag_keywords": ["Transformer", "GPT", "Fine-tuning", "RAG", "Diffusion", "Prompt Engineering"],
-            "structure_guide": """
-## AI/ML 블로그 글 구조 가이드
-
-### 필수 섹션
-1. **헤딩**: 논문 제목 스타일
-2. **서론 (10%)**: 최신 트렌드나 실제 문제로 motivation
-3. **기술적 배경 (20%)**:
-   - 관련 연구/논문 인용 (arXiv 링크)
-   - 기존 방법론과의 차이점
-4. **핵심 아이디어 (30%)**:
-   - 알고리즘/아키텍처 설명
-   - 수식이 필요하면 간단히 (복잡한 건 생략)
-   - Mermaid로 모델 architecture 시각화
-5. **구현 및 실험 (25%)**:
-   - 코드 예시 (PyTorch/TensorFlow)
-   - 실험 결과, 성능 비교
-6. **실무 적용 (10%)**: MLOps 관점, 서빙 팁
-7. **결론 및 참고자료 (5%)**
-
-### 필수 요소
-- ✅ Mermaid architecture diagram
-- ✅ 핵심 코드 예시 (실행 가능한)
-- ✅ 논문 링크 (arXiv, GitHub repo)
-- ✅ 성능 비교표 또는 결과
-- ✅ 한계점 및 향후 연구 방향
-""",
-            "specific_prompt": """
-### AI/ML 분야 작성 특이사항
-
-1. **최신 논문 기반**: arXiv, top conference 논문 인용
-2. **기술적 깊이**: 단순 뉴스가 아닌 원리, 알고리즘 설명
-3. **코드 중심**: PyTorch/TensorFlow 스크립트로 실제 구현 보여주기
-4. **시각화**:
-   - Mermaid로 모델 architecture (심플한 디자인)
-   - 표로 성능 비교
-   - 그래프 설명 (텍스트로 대체)
-
-   **Mermaid 다이어그램 심플 디자인 원칙**:
-   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
-   - 기본 네모형 노드만 사용: `[Node Name]`
-   - 색상, 굵기, 테두리 등의 시각 효과 제거
-   - 기존 블로그의 심플한 다이어그램 스타일 참고
-5. **실무 관점**: MLOps, 서빙, 최적화 팁 포함
-
-### 예시 구조
-```markdown
-## 배경: Transformer의 등장
-
-기존 RNN 계열 모델의 한계를 극복하기 위해...
-
-## 핵심 아이디어: Self-Attention
-
-mermaid
-graph LR
-    Input[Input Sequence] --> Embed[Embedding]
-    Embed --> Attention[Multi-Head Attention]
-    Attention --> FFN[Feed Forward]
-
-## 구현: PyTorch로 구현해보기
-
-```python
-import torch.nn as nn
-
-class SimpleAttention(nn.Module):
-    ...
-```
-
-## 성능 비교
-| 모델 | BLEU | inference time |
-|------|------|----------------|
-| RNN | 0.24 | 120ms |
-```
-"""
-        },
-        Persona.DEVOPS: {
-            "name": "DevOps/SRE 엔지니어",
-            "expertise": "CI/CD, Kubernetes, Docker, Cloud, IaC, 모니터링",
-            "tone": "실무 중심, 실행 가능한 가이드, 트러블슈팅 관점",
-            "category": "DevOps",
-            "default_tags": ["DevOps", "K8s", "Docker", "Kubernetes", "CI/CD"],
-            "tag_keywords": ["Kubernetes", "Helm", "Terraform", "ArgoCD", "Prometheus", "Grafana"],
-            "structure_guide": """
-## DevOps 블로그 글 구조 가이드
-
-### 필수 섹션
-1. **헤딩**: 문제 해결 중심
-2. **서론 (10%)**: 실제 운영 이슈나 pain point 소개
-3. **문제 분석 (20%)**:
-   - 원인 규명 과정
-   - 로그, 메트릭 분석
-4. **솔루션 (35%)**:
-   - 아키텍처 다이어그램 (Mermaid)
-   - 단계별 구현 가이드
-   - YAML/코드 예시 (복붙 가능)
-5. **베스트 프랙티스 (20%)**:
-   - 모니터링 설정
-   - 알람 기준
-   - 운영 팁
-6. **트러블슈팅 (10%)**: 흔한 실수, 디버깅 팁
-7. **참고자료 (5%)**
-
-### 필수 요소
-- ✅ Mermaid architecture diagram
-- ✅ 실행 가능한 YAML/HCL 코드
-- ✅ Before/After 비교
-- ✅ 모니터링/알람 설정 예시
-- ✅ 테스트/검증 방법
-""",
-            "specific_prompt": """
-### DevOps 분야 작성 특이사항
-
-1. **실행 가능성**: 모든 코드는 복붙해서 바로 실행 가능해야 함
-2. **단계별 가이드**: Step 1, 2, 3...으로 명확히
-3. **실제 운영 관점**: Production에서의 고려사항
-4. **YAML 중심**: Kubernetes, Helm, Terraform 코드 필수
-5. **모니터링**: Prometheus/Grafana 대시보드 설정 포함
-
-   **Mermaid 다이어그램 심플 디자인 원칙**:
-   - 절대 스타일 속성 사용 금지 (style, fill, stroke 등 ❌)
-   - 기본 네모형 노드만 사용: `[Node Name]`
-   - 색상, 굵기, 테두리 등의 시각 효과 제거
-
-### 예시 구조
-```markdown
-## 문제: Kubernetes 클러스터 장애 발생
-
-### 현상
-- Pod가 계속 CrashLoopBackOff...
-- 로그: `OOMKilled`
-
-### 원인 분석
-
-```bash
-kubectl describe pod ...
-```
-
-메모리 제한이 너무 보수적...
-
-## 솔루션: HPA + VPA 적용
-
-mermaid
-graph LR
-    A[Metrics Server] --> B[HPA]
-    B --> C[Pod Scale]
-    style Pod_Scale fill:#f9f,stroke:#333,stroke-width:2px
-
-### Step 1: Metrics Server 설치
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-...
-```
-
-### 모니터링 설정
-
-```yaml
-# PrometheusRule
-```
-```
-"""
-        },
-        Persona.CVE_ANALYST: {
-            "name": "CVE 취약점 분석가",
-            "expertise": "CVE 분석, 제로데이 공격, 패치 관리, 익스플로잇",
-            "tone": "분석적, 신속하고 정확한 정보 전달",
-            "category": "CVE",
-            "default_tags": ["CVE", "Vulnerability", "Patch", "Zero-day"],
-            "tag_keywords": ["CVE", "CVSS", "PoC", "Exploit", "Patch"],
-            "structure_guide": """
-## CVE 분석 블로그 글 구조 가이드
-
-### 필수 섹션
-1. **헤딩**: CVE 번호 + 심각도
-2. **개요 (10%)**:
-   - CVE 번호, CVSS 점수, 영향 제품
-   - 심각도 배지 (Critical/High/Medium)
-3. **취약점 상세 (25%)**:
-   - 기술적 원인
-   - 영향 범위 (제품, 버전)
-4. **공격 시나리오 (25%)**:
-   - 익스플로잇 조건
-   - PoC 설명 (코드는 ethical guidelines)
-   - Mermaid로 공격 경로
-
-   **Mermaid 스타일 필수**:
-   - Mermaid 다이어그램 사용 시 **스타일 속성 금지** (style, fill, stroke 등 ❌)
-   - 기본 네모형 노드만 사용하여 심플하고 깔끔하게 표현
-5. **패치 및 완화 (30%)**:
-   - 공식 패치 버전
-   - 임시 완화 조치
-   - 적용 가이드
-6. **탐지 방법 (5%)**:
-   - IOC (Indicators of Compromise)
-   - 탐지 규칙 (YARA/Sigma)
-7. **타임라인 & 참고자료 (5%)**
-
-### 필수 요소
-- ✅ CVE ID, CVSS 벡터, 점수
-- ✅ 영향 제품/버전 표
-- ✅ 패치 diff 분석 (가능하면)
-- ✅ IOC, 탐지 규칙
-- ✅ 공식 advisories 링크
-""",
-            "specific_prompt": """
-### CVE 분석 작성 특이사항
-
-1. **정확성 최우선**: 잘못된 정보는 실무 혼란 초래
-2. **신속성**: 최신 CVE는 빠른 분석 필수
-3. **구체성**: "영향 받는 버전" 정확히 명시
-4. **윤리적 경고**: PoC는 방어 목적임 강조
-5. **실행 가능한 완화**: 당장 적용 가능한 조치
-
-### 예시 구조
-```markdown
-## CVE-2024-XXXXXX: [Product] Critical RCE Vulnerability
-
-### 개요
-- **CVE ID**: CVE-2024-XXXXXX
-- **CVSS**: 9.8 (Critical)
-- **영향 제품**: Product X v1.0 - v2.5
-
-### CVSS 벡터 분석
-```
-CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
-```
-
-### 취약점 상세
-원인: 잘못된 입력 검증...
-
-### 익스플로잇 조건
-- 인증 불필요
-- 네트워크 접근 가능
-
-### 패치 적용 가이드
-
-#### Step 1: 영향 받는지 확인
-
-```bash
-# Product check script
-```
-
-#### Step 2: 패치 적용
-
-### 탐지 규칙 (Sigma)
-
-```yaml
-detection:
-    ...
-```
-```
-"""
-        },
-    }
+    
+    # 기존 하드코딩된 PERSONAS 딕셔너리는 제거되고 prompts.yaml로 이동됨
 
     @classmethod
     def get(cls, persona: Persona) -> Dict:
-        return cls.PERSONAS[persona]
+        """PromptManager를 통해 페르소나 설정을 로드합니다."""
+        persona_key = persona.value
+        config = PromptManager.get_raw(f"personas.{persona_key}")
+        
+        if not config:
+            logger.error(f"Persona config for '{persona_key}' not found in prompts.yaml")
+            # Fallback (최소한의 설정)
+            return {
+                "name": "기술 블로거",
+                "expertise": "IT 기술 전반",
+                "tone": "친절하고 명확하게",
+                "category": "IT",
+                "default_tags": ["IT", "Tech"],
+                "tag_keywords": [],
+                "specific_prompt": ""
+            }
+        return config
 
 class CategoryClassifier:
     KEYWORDS = {
@@ -591,14 +279,13 @@ class BlogWriter:
                 # 정규식으로 content 필드 값 추출
                 content_match = re.search(r'"content"\s*:\s*"((?:[^"\\]|\\.)*)"', json_str, re.DOTALL)
                 if content_match:
-                    # 이스케이프된 문자를 원래대로 복원 (JSON 표준)
                     import json as json_lib
                     try:
-                        # content 필드 값만 파싱
                         content_value = f'"{content_match.group(1)}"'
                         content_text = json_lib.loads(content_value)
-                    except:
-                        # 파싱 실패하면 그냥 원본 사용
+                    except json_lib.JSONDecodeError:
+                        content_text = content_match.group(1)
+                    except Exception:
                         content_text = content_match.group(1)
                 else:
                     content_text = ""
